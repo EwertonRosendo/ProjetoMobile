@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import{ Text, TextInput, View, StyleSheet } from'react-native';
-import{ Button } from'react-native-web';import{ Entypo } from'@expo/vector-icons';
+import{ Text, TextInput, View, StyleSheet, Button, TouchableOpacity } from'react-native';
+import{ Entypo } from'@expo/vector-icons';
 import{ FontAwesome5 } from'@expo/vector-icons';
 export default function App() {
 
   const[click, setClick] =useState(true)
-  const[email, setNome] =useState('');
-  const[idade, setIdade] =useState('');
+  const[email, setEmail] =useState('');
+  const[senha, setSenha] =useState('');
   const[textBotao, setTextBotao] =useState('Login')
 
   function mudarBool(){
@@ -14,23 +14,33 @@ export default function App() {
     if(click==true){
       setTextBotao("Login")
     }else{
-      setIdade('')
-      setNome('')
+      setSenha('')
+      setEmail('')
       setTextBotao("Deslogar")}
     }
     
     return(
       <View style={styles.container}>
-        <Text>Nelsin</Text>
+      
+        <Text style={styles.logo}>Nilson</Text>
+
         <View style={styles.backgroundInput}>
           <Entypo name="mail"size={24}color="black"/>
-          <TextInput style={styles.input}placeholder="Nome:"value={email}onChangeText={setNome}/>
+          <TextInput style={styles.input}placeholder="Email:"value={email}onChangeText={setEmail}/>
         </View>
+
       <View style={styles.backgroundInput}>
         <FontAwesome5 name="key"size={24}color="black"/>
-        <TextInput style={styles.input}placeholder="Idade:"value={idade}onChangeText={setIdade}/>
+        <TextInput style={styles.input}placeholder="Senha:"value={senha}onChangeText={setSenha}/>
       </View>
-        <Button style={styles.botao}title={textBotao}onPress={mudarBool}/>
+
+      <TouchableOpacity style={styles.forgot}>
+        <Text style={styles.textForgot}>Esqueceu sua senha?</Text>
+      </TouchableOpacity>
+      
+        <TouchableOpacity style={styles.login}>
+          <Text style={styles.loginText}>Sign In</Text>
+        </TouchableOpacity>
       </View>
       );
 }
@@ -55,8 +65,32 @@ backgroundInput:{
   width:'80%',
   borderRadius:5
 },
-botao:{
-  width:'100%',
-  padding:'100%'
+logo:{
+  fontSize:40,
+  fontStyle:'italic',
+  margin:40,
+  fontWeight: 'bold'
+},
+login:{
+  backgroundColor:'blue',
+  width:'80%',
+  height:50,
+  justifyContent:'center',
+  alignItems:'center',
+  borderRadius:10,
+  marginTop:20,
+},
+loginText:{
+  fontSize:30,
+  color:'white',
+  fontWeight: 'bold'
+},
+forgot:{
+  width:'80%',
+  alignItems:'flex-end',
+  marginRight:20, 
+},
+textForgot:{
+  fontWeight: 'bold'
 }
 });
