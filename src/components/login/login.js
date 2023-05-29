@@ -3,28 +3,28 @@ import{ Text, TextInput, View, StyleSheet, Button, TouchableOpacity, SafeAreaVie
 import{ Entypo } from'@expo/vector-icons';
 import{ FontAwesome5 } from'@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-
+import Axios from 'axios';
 
 
 export default function App() {
 
-  const[click, setClick] =useState(true)
-  const[textBotao, setTextBotao] = useState('Cadastro')
   const[mode, setMode] = useState(true)
 
-  const [background, setBackground ] = useState('#e8e8e8')
-  const [backgroundIcon, setBackgroundIcon ] = useState('#474747')
-  const [container_color, setContainerColor ] = useState('#e8e8e8')
-  const [logo, setLogo ] = useState('green')
-  const [backgroundInput, setBackgroundInput ] = useState('#e8e8e8')
-  const [iconsInput, setIconsInput ] = useState('#e8e8e8')
-  const [label, setLabel ] = useState('#e8e8e8')
-  const [backgroundBotao, setBackgroundBotao ] = useState('#e8e8e8')
-  const [textoBotao, setTextoBotao ] = useState('#e8e8e8')
-
   const [alerta, setAlerta] = useState('Você está usando um Email invalido!')
-  const[email, setEmail] =useState('');
-  const[senha, setSenha] =useState('');
+  
+  const[emailApp, setEmail] =useState('');
+  const[senhaApp, setSenha] =useState('');
+  
+  function login(){
+    Axios.post('http://192.168.1.11:3001/user', {email:emailApp, senha:senhaApp}).then(response => {
+    console.log('Resposta:', response);
+    //return para mudar de tela linha para mudar de telaaaa
+    })
+    .catch(error => {
+      console.error('Erro ao fazer o login:', error);
+    })
+  }
+
 
   function mudarMode(){
     
@@ -37,42 +37,6 @@ export default function App() {
     }
   }
 
-/*
-  function mudarMode(){
-    setMode(!mode)
-    if(mode){
-      setBackground('#e8e8e8')
-      setBackgroundIcon('#e8e8e8')
-      setContainerColor('#e8e8e8')
-      setBackgroundInput('#e8e8e8')
-      setIconsInput('#e8e8e8')
-      setLabel('#e8e8e8')
-      setBackgroundBotao('#e8e8e8')
-      setTextoBotao('#e8e8e8')
-    }
-    else{
-      setBackground('#474747')
-      setBackgroundIcon('#474747')
-      setContainerColor('#474747')
-      setBackgroundInput('#474747')
-      setIconsInput('#474747')
-      setLabel('#474747')
-      setBackgroundBotao('#474747')
-      setTextoBotao('#474747')
-
-    }
-  }*/
-  function validEmail(){
-    let pos = email.indexOf('@')
-    if(pos==-1){
-      setAlerta('Você está usando um Email invalido!')
-      return false
-    } else{
-      setAlerta('')
-      return true
-    }
-  }
-    
     return(
       <Fragment>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#E7E7E7' }}>
@@ -98,12 +62,12 @@ export default function App() {
 
             <View style={styles.backgroundInput}>
               <Entypo name="mail"size={24}color="black"/>
-              <TextInput style={styles.input}placeholder="Email:"value={email} onChangeText={setEmail}/>
+              <TextInput style={styles.input}placeholder="Email:"value={emailApp} onChangeText={setEmail}/>
             </View>
 
             <View style={styles.backgroundInput}>
               <FontAwesome5 name="key"size={24}color="black"/>
-              <TextInput style={styles.input}placeholder="Senha:"value={senha} onChangeText={setSenha}/>
+              <TextInput style={styles.input}placeholder="Senha:"value={senhaApp} onChangeText={setSenha}/>
             </View>
             <View style={styles.forgot}>
               <Text style={styles.textEmail}>{alerta}</Text>
@@ -113,8 +77,8 @@ export default function App() {
               <Text style={styles.textForgot}>Não possui uma conta?</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.cadastro} onPress={validEmail}>
-              <Text style={styles.cadastroText}>Sign In</Text>
+            <TouchableOpacity style={styles.cadastro} onPress={login}>
+              <Text style={styles.cadastroText}>Entrar</Text>
             </TouchableOpacity>
           </View>
             
