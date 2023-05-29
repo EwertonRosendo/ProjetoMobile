@@ -3,26 +3,20 @@ import{ Text, TextInput, View, StyleSheet, Button, TouchableOpacity, SafeAreaVie
 import{ Entypo } from'@expo/vector-icons';
 import{ FontAwesome5 } from'@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-
+import Axios from 'axios'
 
 
 export default function App() {
 
-  const[click, setClick] =useState(true)
   const[email, setEmail] =useState('');
   const[senha, setSenha] =useState('');
-  const[textBotao, setTextBotao] = useState('Cadastro')
   const[mode, setMode] = useState(true)
 
-  const [background, setBackground ] = useState('#e8e8e8')
-  const [backgroundIcon, setBackgroundIcon ] = useState('#474747')
-  const [container_color, setContainerColor ] = useState('#e8e8e8')
-  const [logo, setLogo ] = useState('green')
-  const [backgroundInput, setBackgroundInput ] = useState('#e8e8e8')
-  const [iconsInput, setIconsInput ] = useState('#e8e8e8')
-  const [label, setLabel ] = useState('#e8e8e8')
-  const [backgroundBotao, setBackgroundBotao ] = useState('#e8e8e8')
-  const [textoBotao, setTextoBotao ] = useState('#e8e8e8')
+  const cadastrar = () => {
+    console.log(email, senha)
+    Axios.post("http://192.168.1.11:3001/cadastrar", {email:email, senha:senha})
+    
+  }
 
   function mudarMode(){
     
@@ -35,32 +29,6 @@ export default function App() {
     }
   }
 
-/*
-  function mudarMode(){
-    setMode(!mode)
-    if(mode){
-      setBackground('#e8e8e8')
-      setBackgroundIcon('#e8e8e8')
-      setContainerColor('#e8e8e8')
-      setBackgroundInput('#e8e8e8')
-      setIconsInput('#e8e8e8')
-      setLabel('#e8e8e8')
-      setBackgroundBotao('#e8e8e8')
-      setTextoBotao('#e8e8e8')
-    }
-    else{
-      setBackground('#474747')
-      setBackgroundIcon('#474747')
-      setContainerColor('#474747')
-      setBackgroundInput('#474747')
-      setIconsInput('#474747')
-      setLabel('#474747')
-      setBackgroundBotao('#474747')
-      setTextoBotao('#474747')
-
-    }
-  }*/
-    
     return(
       <Fragment>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#E7E7E7' }}>
@@ -86,20 +54,20 @@ export default function App() {
 
             <View style={styles.backgroundInput}>
               <Entypo name="mail"size={24}color="black"/>
-              <TextInput style={styles.input}placeholder="Email:"value={email}onChangeText={setEmail}/>
+              <TextInput style={styles.input}placeholder="Email:"onChangeText={setEmail}/>
             </View>
 
             <View style={styles.backgroundInput}>
               <FontAwesome5 name="key"size={24}color="black"/>
-              <TextInput style={styles.input}placeholder="Senha:"value={senha}onChangeText={setSenha}/>
+              <TextInput style={styles.input}placeholder="Senha:"onChangeText={setSenha}/>
             </View>
 
             <TouchableOpacity style={styles.forgot}>
               <Text style={styles.textForgot}>Já possui uma conta?</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.cadastro}>
-              <Text style={styles.cadastroText}>Sign Up</Text>
+            <TouchableOpacity style={styles.cadastro} onPress={cadastrar}>
+              <Text style={styles.cadastroText}>Cadastrar</Text>
             </TouchableOpacity>
           </View>
             
