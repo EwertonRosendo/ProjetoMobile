@@ -50,11 +50,14 @@ app.delete("/item/:id", (req, res)=>{
     })
 })
 */
+
+
 app.post("/user", (req, res) => {
     const { email, senha } = req.body;
   
     let SQL = "SELECT senha FROM users WHERE email = ? AND senha = ?";
-  
+
+    
     db.query(SQL, [email, senha], (err, result) => {
       if (err) {
         console.error("Erro ao executar a consulta:", err);
@@ -66,7 +69,21 @@ app.post("/user", (req, res) => {
         return res.status(401).json({ error: "Credenciais inválidas" });
       }
       console.log('deu bom')
-      res.status(200).json({ message: "Login realizado com sucesso" });
+      db.query('select id from users where email = ?', email, (err, result)=>{
+        if(err){
+            console.log('deu merda pegando o id')
+        }
+        if(result){
+            //Desiste de pegar o id, tu vai é usar o email pra buscar o id do mano quando ele fizer o agendamento
+
+            //let user_id = result[0]['id']
+            //res.send(user_id)
+            //console.log(result)
+            
+        }
+      })
+      //console.log(user_id)
+      res.status(200).json({ message: "Login realizado com sucesso"});
     });
   });
   
