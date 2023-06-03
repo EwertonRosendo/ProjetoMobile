@@ -51,6 +51,30 @@ app.delete("/item/:id", (req, res)=>{
 })
 */
 
+app.delete("/agendamentos/:id",(req, res) =>{
+    const {id} = req.params
+    
+    console.log(id)
+
+    let SQL = 'DELETE from agendamento where (`id` = ?)'
+
+    db.query(SQL, id, (err, result) =>{
+        console.log(err)
+        console.log(result)
+    })
+})
+
+
+app.get('/agendamentos', (req, res)=>{
+    let SQL = 'SELECT * FROM agendamento'
+
+    db.query(SQL, (err, result)=>{
+        if(err) console.log(err)
+        else res.send(result)
+        
+    })
+})
+
 
 app.post("/user", (req, res) => {
     const { email, senha } = req.body;
@@ -69,6 +93,7 @@ app.post("/user", (req, res) => {
         return res.status(401).json({ error: "Credenciais inválidas" });
       }
       console.log('deu bom')
+
       db.query('select id from users where email = ?', email, (err, result)=>{
         if(err){
             console.log('deu merda pegando o id')
@@ -86,7 +111,33 @@ app.post("/user", (req, res) => {
       res.status(200).json({ message: "Login realizado com sucesso"});
     });
   });
-  
+
+
+  app.post("/agendamento", (req, res)=>{
+    
+    const {email, dia, mes, ano, horario, valor_corte} = req.body // Pega os campos do body e adiona as variaveis email e senha
+    
+    console.log(req.body) // É o corpo da requisição, possui apenas os dados que foram enviados
+    
+    let SQL = "SELECT id FROM users where email = ?"
+    
+    // por temos mais de um parametro na tabela user, temos que usar uma lista
+    db.query(SQL, email, (err, result)=>{
+        if(err){
+            console.log(err)
+        }
+        if(result){
+            let id = result[0]['id']
+
+            SQL = 'INSERT INTO agendamento (id_user, dia, mes, ano, horario, valor_corte) VALUES (?, ?, ?, ?, ?, ?)'
+
+            db.query(SQL,  [id, dia, mes, ano, horario, valor_corte], (err, result)=>{
+                console.log(err)
+                console.log(result)
+            })
+        }
+    })
+})
 
 
 app.post("/cadastrar", (req, res)=>{
